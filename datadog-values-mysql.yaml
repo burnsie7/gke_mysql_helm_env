@@ -1,0 +1,39 @@
+image:
+  repository: datadog/agent
+  tag: "latest"
+  pullPolicy: IfNotPresent
+nameOverride: ""
+fullnameOverride: ""
+datadog:
+  apiKey: <DATADOG_API_KEY>
+  name: datadog
+  logLevel: INFO
+  useCriSocketVolume: true
+  containerLogsPath: /var/lib/docker/containers
+  confd:
+    mysql.yaml: |-
+      ad_identifiers:
+        - mysql
+      init_config:
+      instances:
+        - server: "%%host%%"
+          port: "3306"
+          user: datadog
+          pass: "%%env_MYSQLPASS%%"
+  resources: {}
+systemProbe:
+  enabled: false
+  debugPort: 0
+  enableConntrack: true
+  seccomp: localhost/system-probe
+  seccompRoot: /var/lib/kubelet/seccomp
+  bpfDebug: false
+  apparmor: unconfined
+clusterAgent:
+  enabled: false
+  containerName: cluster-agent
+  image:
+    repository: datadog/cluster-agent
+    tag: 1.4.0
+    pullPolicy: IfNotPresent
+  token: ""
