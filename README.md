@@ -23,3 +23,23 @@ helm upgrade -f datadog-values.yaml datadog-agent \
 --set datadog.apiKey=<DATADOG_API_KEY> \
 stable/datadog
 ```
+
+## Helm 2+
+
+```
+helm upgrade -f datadog-values.yaml datadog-agent \
+--set datadog.env.[0].name=MYSQLPASS \
+--set datadog.env.[0].value=dd_pass \
+--set datadog.apiKey=<DATADOG_API_KEY> \
+stable/datadog
+```
+
+## Using Cluster Checks
+
+```
+helm install -f datadog-values-cluster-checks.yaml datadog-agent \
+--set clusterAgent.env[0].name=MYSQLPASS \
+--set clusterAgent.env[0].value=dd_pass \
+--set datadog.apiKey=<DATADOG_API_KEY> \
+stable/datadog
+```
